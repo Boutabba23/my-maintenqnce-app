@@ -1,10 +1,13 @@
 
 import React from 'react';
 import { useAppLogic } from './hooks/useAppLogic';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Header from './components/Header';
 import MachineListView from './components/MachineListView';
 import MachineDetailView from './components/MachineDetailView';
 import FilterManagementView from './components/FilterManagementView';
+import UserProfile from './components/UserProfile';
+import LoginPage from './components/LoginPage';
 import { Notification, View } from './types';
 import Sidebar from './components/Sidebar';
 import SettingsView from './components/ThemeSettingsView';
@@ -23,34 +26,32 @@ import AddStockModal from './components/AddStockModal';
 import ThemeCustomizerModal from './components/ThemeCustomizerModal';
 import { hexToHsl, isColorDark } from './utils/colors';
 import ImportModal from './components/ImportModal';
-import LoginView from './components/LoginView';
 import { LogoIcon } from './constants';
-import { supabase } from './utils/supabase';
-import { Session } from '@supabase/supabase-js';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { user, loading: authLoading } = useAuth();
   const {
     state,
     actions
   } = useAppLogic();
 
-  const [session, setSession] = React.useState<Session | null>(null);
-  const [authLoading, setAuthLoading] = React.useState(true);
   const [isNotificationsOpen, setIsNotificationsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setAuthLoading(false);
-    });
+    const params = new URLSearchParams(window.location.search);
+    const machineId = params.get('machineId');
+    const filterGroupId = params.get('filterGroupId');
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setAuthLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+    if (user) {
+        if (machineId) {
+            actions.selectMachine(machineId);
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (filterGroupId) {
+            actions.navigateToFilterGroup(filterGroupId);
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+  }, [user, actions]);
 
   React.useEffect(() => {
     const root = window.document.documentElement;
@@ -115,25 +116,8 @@ const App: React.FC = () => {
     }
   }, [state.theme, state.customColors]);
 
-
-  React.useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const machineId = params.get('machineId');
-    const filterGroupId = params.get('filterGroupId');
-
-    if (session) {
-        if (machineId) {
-            actions.selectMachine(machineId);
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else if (filterGroupId) {
-            actions.navigateToFilterGroup(filterGroupId);
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    }
-  }, [session, actions]);
-
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    // Logout is now handled by the AuthContext
   };
   
   const renderLoadingScreen = () => (
@@ -147,10 +131,10 @@ const App: React.FC = () => {
     return renderLoadingScreen();
   }
 
-  if (!session) {
+  if (!user) {
     return (
       <div className="min-h-screen bg-background text-foreground">
-        <LoginView />
+        <LoginPage />
       </div>
     );
   }
@@ -241,6 +225,8 @@ const App: React.FC = () => {
                 onOpenConfirmationDialog={actions.openConfirmationDialog}
             />
         );
+       case View.USER_PROFILE:
+        return <UserProfile />;
       default:
         return <DashboardView
             machines={state.machines}
@@ -270,7 +256,7 @@ const App: React.FC = () => {
         isMobileOpen={state.isSidebarOpen}
         closeSidebar={actions.closeSidebar}
         onLogout={handleLogout}
-        userEmail={session.user.email}
+        userEmail={user?.email || ''}
       />
       <div className="flex flex-col md:pl-64">
         <Header 
@@ -368,6 +354,14 @@ const App: React.FC = () => {
         description={state.confirmationDialogConfig.description}
       />
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 

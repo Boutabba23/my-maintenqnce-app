@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { View } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 import { TruckIcon, FilterIcon, LogoutIcon, LogoIcon, SettingsIcon, WrenchIcon, Squares2x2Icon, ChartBarIcon } from '../constants';
 
 interface SidebarProps {
@@ -13,6 +14,15 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, isMobileOpen, closeSidebar, onLogout, userEmail }) => {
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
   const NavItem = ({ view, label, icon }: { view: View; label: string; icon: React.ReactNode }) => {
     // Highlight the "Engins" link even when viewing a specific machine's detail
     const isActive = currentView === view || (view === View.MACHINE_LIST && currentView === View.MACHINE_DETAIL);
@@ -53,18 +63,18 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, isMobile
           </nav>
           <div className="p-4 border-t border-border">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3 overflow-hidden">
+                <div className="flex items-center space-x-3 overflow-hidden cursor-pointer" onClick={() => { setCurrentView(View.USER_PROFILE); closeSidebar(); }}>
                   <div className="w-10 h-10 rounded-full bg-muted flex-shrink-0 flex items-center justify-center font-bold text-muted-foreground">
                     {userEmail?.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 overflow-hidden">
-                    <p className="font-semibold text-sm truncate" title={userEmail}>Utilisateur</p>
+                    <p className="font-semibold text-sm truncate" title={userEmail}>Profil</p>
                     <p className="text-xs text-muted-foreground truncate" title={userEmail}>{userEmail}</p>
                   </div>
                 </div>
               </div>
               <button 
-                onClick={onLogout}
+                onClick={handleLogout}
                 className="w-full flex items-center justify-center space-x-2 text-destructive-foreground bg-destructive text-sm font-medium mt-4 p-2 rounded-md hover:bg-destructive/90">
                 <LogoutIcon className="h-4 w-4"/>
                 <span>Déconnexion</span>

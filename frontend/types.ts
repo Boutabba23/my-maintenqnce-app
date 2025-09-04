@@ -7,6 +7,7 @@ export enum View {
   MAINTENANCE = 'MAINTENANCE',
   SETTINGS = 'SETTINGS',
   ANALYTICS = 'ANALYTICS',
+  USER_PROFILE = 'USER_PROFILE',
 }
 
 export type Theme = string;
