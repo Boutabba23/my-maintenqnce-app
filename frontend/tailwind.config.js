@@ -1,8 +1,36 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    "./index.html",
-    "./**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  safelist: [
+    // Gamme badge colors - ensure these are never purged
+    "bg-cyan-100",
+    "text-cyan-800",
+    "border-cyan-300",
+    "dark:bg-cyan-900/30",
+    "dark:text-cyan-300",
+    "dark:border-cyan-700",
+    "bg-orange-100",
+    "text-orange-800",
+    "border-orange-300",
+    "dark:bg-orange-900/30",
+    "dark:text-orange-300",
+    "dark:border-orange-700",
+    "bg-emerald-100",
+    "text-emerald-800",
+    "border-emerald-300",
+    "dark:bg-emerald-900/30",
+    "dark:text-emerald-300",
+    "dark:border-emerald-700",
+    "bg-rose-100",
+    "text-rose-800",
+    "border-rose-300",
+    "dark:bg-rose-900/30",
+    "dark:text-rose-300",
+    "dark:border-rose-700",
   ],
   darkMode: ["class"],
   theme: {
@@ -75,4 +103,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

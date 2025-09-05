@@ -2,37 +2,36 @@
   "name": "gestifiltres-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.14.0",
+    "@supabase/supabase-js": "^2.44.4",
+    "html5-qrcode": "^2.3.8",
+    "lucide-react": "^0.542.0",
+    "next": "^14.0.0",
+    "papaparse": "^5.4.1",
+    "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@supabase/supabase-js": "^2.44.4",
-    "@google/generative-ai": "^0.14.0",
-    "qrcode": "^1.5.3",
-    "papaparse": "^5.4.1",
-    "html5-qrcode": "^2.3.8"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@types/qrcode": "^1.5.2",
+    "@types/node": "^20.0.0",
     "@types/papaparse": "^5.3.14",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react": "^4.0.3",
+    "@types/qrcode": "^1.5.2",
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
+    "@types/xlsx": "^0.0.35",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.45.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint-config-next": "^14.0.0",
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "typescript": "^5.0.2"
   }
 }

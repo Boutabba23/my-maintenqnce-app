@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 interface PopoverProps {
   isOpen: boolean;
@@ -8,18 +8,28 @@ interface PopoverProps {
   contentClassName?: string;
 }
 
-const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, trigger, children, contentClassName }) => {
+const Popover: React.FC<PopoverProps> = ({
+  isOpen,
+  onClose,
+  trigger,
+  children,
+  contentClassName,
+}) => {
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isOpen && popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
+      if (
+        isOpen &&
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
@@ -27,7 +37,11 @@ const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, trigger, children, c
     <div className="relative" ref={popoverRef}>
       {trigger}
       {isOpen && (
-        <div className={`absolute top-full right-0 mt-2 w-80 sm:w-96 rounded-md shadow-lg bg-popover text-popover-foreground border border-border z-50 animate-fadeIn ${contentClassName || ''}`}>
+        <div
+          className={`absolute top-full right-0 mt-2 w-80 sm:w-96 rounded-xl shadow-lg bg-popover text-popover-foreground border border-border z-50 animate-fadeIn ${
+            contentClassName || ""
+          }`}
+        >
           {children}
         </div>
       )}

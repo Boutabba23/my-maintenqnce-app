@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../utils/supabase';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
-import Button from './ui/Button';
-import Input from './ui/Input';
-import { EyeIcon, EyeSlashIcon } from '../constants';
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { supabase } from "../utils/supabase";
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/Card";
+import Button from "./ui/Button";
+import Input from "./ui/Input";
+import { EyeIcon, EyeSlashIcon } from "../constants";
 
 const UserProfile: React.FC = () => {
   const { user, signOut } = useAuth();
   const [showChangePassword, setShowChangePassword] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -24,7 +24,7 @@ const UserProfile: React.FC = () => {
     try {
       await signOut();
     } catch (err) {
-      console.error('Error signing out:', err);
+      console.error("Error signing out:", err);
     } finally {
       setLoading(false);
     }
@@ -37,13 +37,13 @@ const UserProfile: React.FC = () => {
     setMessage(null);
 
     if (newPassword !== confirmPassword) {
-      setError('Les nouveaux mots de passe ne correspondent pas');
+      setError("Les nouveaux mots de passe ne correspondent pas");
       setLoading(false);
       return;
     }
 
     if (newPassword.length < 6) {
-      setError('Le nouveau mot de passe doit contenir au moins 6 caractères');
+      setError("Le nouveau mot de passe doit contenir au moins 6 caractères");
       setLoading(false);
       return;
     }
@@ -51,20 +51,20 @@ const UserProfile: React.FC = () => {
     try {
       // Use Supabase auth client to update password
       const { error } = await supabase.auth.updateUser({
-        password: newPassword
+        password: newPassword,
       });
-      
+
       if (error) {
         setError(error.message);
       } else {
-        setMessage('Mot de passe mis à jour avec succès');
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
+        setMessage("Mot de passe mis à jour avec succès");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
         setShowChangePassword(false);
       }
     } catch (err) {
-      setError('Erreur lors de la mise à jour du mot de passe');
+      setError("Erreur lors de la mise à jour du mot de passe");
     } finally {
       setLoading(false);
     }
@@ -75,46 +75,57 @@ const UserProfile: React.FC = () => {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Profil Utilisateur</h1>
-        <p className="text-muted-foreground">Gérez vos informations de compte</p>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Profil Utilisateur
+        </h1>
+        <p className="text-muted-foreground">
+          Gérez vos informations de compte
+        </p>
       </div>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="mb-6">
           <CardTitle>Informations du Compte</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Email</label>
+            <label className="text-sm font-medium text-muted-foreground">
+              Email
+            </label>
             <p className="text-sm">{user.email}</p>
           </div>
-          
+
           <div>
-            <label className="text-sm font-medium text-muted-foreground">ID Utilisateur</label>
+            <label className="text-sm font-medium text-muted-foreground">
+              ID Utilisateur
+            </label>
             <p className="text-sm font-mono">{user.id}</p>
           </div>
-          
+
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Dernière Connexion</label>
+            <label className="text-sm font-medium text-muted-foreground">
+              Dernière Connexion
+            </label>
             <p className="text-sm">
-              {user.last_sign_in_at 
-                ? new Date(user.last_sign_in_at).toLocaleString('fr-FR')
-                : 'Inconnue'
-              }
+              {user.last_sign_in_at
+                ? new Date(user.last_sign_in_at).toLocaleString("fr-FR")
+                : "Inconnue"}
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Compte Créé</label>
+            <label className="text-sm font-medium text-muted-foreground">
+              Compte Créé
+            </label>
             <p className="text-sm">
-              {new Date(user.created_at).toLocaleString('fr-FR')}
+              {new Date(user.created_at).toLocaleString("fr-FR")}
             </p>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="mb-6">
           <CardTitle>Sécurité</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -126,8 +137,8 @@ const UserProfile: React.FC = () => {
                   Modifiez votre mot de passe pour sécuriser votre compte
                 </p>
               </div>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => setShowChangePassword(true)}
               >
                 Modifier
@@ -147,13 +158,16 @@ const UserProfile: React.FC = () => {
               )}
 
               <div className="space-y-2">
-                <label htmlFor="currentPassword" className="text-sm font-medium">
+                <label
+                  htmlFor="currentPassword"
+                  className="text-sm font-medium"
+                >
                   Mot de passe actuel
                 </label>
                 <div className="relative">
                   <Input
                     id="currentPassword"
-                    type={showCurrentPassword ? 'text' : 'password'}
+                    type={showCurrentPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -181,7 +195,7 @@ const UserProfile: React.FC = () => {
                 <div className="relative">
                   <Input
                     id="newPassword"
-                    type={showNewPassword ? 'text' : 'password'}
+                    type={showNewPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -203,13 +217,16 @@ const UserProfile: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="confirmNewPassword" className="text-sm font-medium">
+                <label
+                  htmlFor="confirmNewPassword"
+                  className="text-sm font-medium"
+                >
                   Confirmer le nouveau mot de passe
                 </label>
                 <div className="relative">
                   <Input
                     id="confirmNewPassword"
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -232,16 +249,16 @@ const UserProfile: React.FC = () => {
 
               <div className="flex gap-2">
                 <Button type="submit" disabled={loading}>
-                  {loading ? 'Mise à jour...' : 'Mettre à jour'}
+                  {loading ? "Mise à jour..." : "Mettre à jour"}
                 </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
+                <Button
+                  type="button"
+                  variant="outline"
                   onClick={() => {
                     setShowChangePassword(false);
-                    setCurrentPassword('');
-                    setNewPassword('');
-                    setConfirmPassword('');
+                    setCurrentPassword("");
+                    setNewPassword("");
+                    setConfirmPassword("");
                     setError(null);
                     setMessage(null);
                   }}
@@ -255,7 +272,7 @@ const UserProfile: React.FC = () => {
       </Card>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="mb-6">
           <CardTitle>Actions du Compte</CardTitle>
         </CardHeader>
         <CardContent>
@@ -266,12 +283,12 @@ const UserProfile: React.FC = () => {
                 Déconnectez-vous de votre session actuelle
               </p>
             </div>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handleSignOut}
               disabled={loading}
             >
-              {loading ? 'Déconnexion...' : 'Se déconnecter'}
+              {loading ? "Déconnexion..." : "Se déconnecter"}
             </Button>
           </div>
         </CardContent>

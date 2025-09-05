@@ -4,129 +4,129 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
   public: {
     Tables: {
       filter_groups: {
         Row: {
-          id: string
-          name: string
-          originalReferenceId: string | null
-          references: Json
-        }
+          id: string;
+          name: string;
+          original_reference_id: string | null;
+          references: Json;
+        };
         Insert: {
-          id?: string
-          name: string
-          originalReferenceId?: string | null
-          references: Json
-        }
+          id?: string;
+          name: string;
+          original_reference_id?: string | null;
+          references: Json;
+        };
         Update: {
-          id?: string
-          name?: string
-          originalReferenceId?: string | null
-          references?: Json
-        }
-        Relationships: []
-      }
+          id?: string;
+          name?: string;
+          original_reference_id?: string | null;
+          references?: Json;
+        };
+        Relationships: [];
+      };
       filter_types: {
         Row: {
-          id: string
-          name: string
-        }
+          id: string;
+          name: string;
+        };
         Insert: {
-          id?: string
-          name: string
-        }
+          id?: string;
+          name: string;
+        };
         Update: {
-          id?: string
-          name?: string
-        }
-        Relationships: []
-      }
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
       machines: {
         Row: {
-          assignedFilters: Json
-          code: string
-          designation: string
-          id: string
-          marque: string
-          serviceHours: number
-          type: string
-        }
+          assigned_filters: Json;
+          code: string;
+          designation: string;
+          id: string;
+          marque: string;
+          service_hours: number;
+          type: string;
+        };
         Insert: {
-          assignedFilters: Json
-          code: string
-          designation: string
-          id?: string
-          marque: string
-          serviceHours: number
-          type: string
-        }
+          assigned_filters?: Json;
+          code: string;
+          designation: string;
+          id?: string;
+          marque: string;
+          service_hours?: number;
+          type: string;
+        };
         Update: {
-          assignedFilters?: Json
-          code?: string
-          designation?: string
-          id?: string
-          marque?: string
-          serviceHours?: number
-          type?: string
-        }
-        Relationships: []
-      }
+          assigned_filters?: Json;
+          code?: string;
+          designation?: string;
+          id?: string;
+          marque?: string;
+          service_hours?: number;
+          type?: string;
+        };
+        Relationships: [];
+      };
       maintenance_records: {
         Row: {
-          date: string
-          filtersUsed: Json
-          id: string
-          machineId: string
-          maintenanceRange: string
-          serviceHours: number
-        }
+          date: string;
+          filters_used: Json;
+          id: string;
+          machine_id: string;
+          maintenance_range: string;
+          service_hours: number;
+        };
         Insert: {
-          date: string
-          filtersUsed: Json
-          id?: string
-          machineId: string
-          maintenanceRange: string
-          serviceHours: number
-        }
+          date: string;
+          filters_used: Json;
+          id?: string;
+          machine_id: string;
+          maintenance_range: string;
+          service_hours: number;
+        };
         Update: {
-          date?: string
-          filtersUsed?: Json
-          id?: string
-          machineId?: string
-          maintenanceRange?: string
-          serviceHours?: number
-        }
+          date?: string;
+          filters_used?: Json;
+          id?: string;
+          machine_id?: string;
+          maintenance_range?: string;
+          service_hours?: number;
+        };
         Relationships: [
           {
-            foreignKeyName: "maintenance_records_machineId_fkey"
-            columns: ["machineId"]
-            isOneToOne: false
-            referencedRelation: "machines"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-    }
+            foreignKeyName: "maintenance_records_machine_id_fkey";
+            columns: ["machine_id"];
+            isOneToOne: false;
+            referencedRelation: "machines";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -135,23 +135,23 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
+      PublicSchema["Views"])
+  ? (PublicSchema["Tables"] &
+      PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R;
+    }
+    ? R
     : never
+  : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -159,20 +159,20 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I;
+    }
+    ? I
     : never
+  : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -180,20 +180,20 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U;
+    }
+    ? U
     : never
+  : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -201,9 +201,9 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+  ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  : never;

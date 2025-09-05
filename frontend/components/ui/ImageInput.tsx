@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { PlusIcon, TrashIcon } from '../../constants';
+import React, { useRef, useState, useEffect } from "react";
+import { PlusIcon, TrashIcon } from "../../constants";
 
 interface ImageInputProps {
   value: string | null | undefined;
@@ -7,7 +7,11 @@ interface ImageInputProps {
   placeholderText?: string;
 }
 
-const ImageInput: React.FC<ImageInputProps> = ({ value, onChange, placeholderText = "Ajouter une image" }) => {
+const ImageInput: React.FC<ImageInputProps> = ({
+  value,
+  onChange,
+  placeholderText = "Ajouter une image",
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -33,15 +37,15 @@ const ImageInput: React.FC<ImageInputProps> = ({ value, onChange, placeholderTex
     onChange(null);
     setPreview(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
   const handleClickContainer = () => {
     if (fileInputRef.current) {
-        fileInputRef.current.click();
+      fileInputRef.current.click();
     }
-  }
+  };
 
   return (
     <div className="w-full">
@@ -53,15 +57,17 @@ const ImageInput: React.FC<ImageInputProps> = ({ value, onChange, placeholderTex
         className="hidden"
       />
       {preview ? (
-        <div 
-            className="relative w-full h-24 rounded-md border-2 border-dashed border-border group cursor-pointer"
-            onClick={handleClickContainer}
-            >
-          <img src={preview} alt="Aperçu du filtre" className="w-full h-full object-contain rounded-md p-1" />
-          <div 
-            className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-             <span className="text-white text-xs font-semibold">Changer</span>
+        <div
+          className="relative w-full h-24 rounded-lg border-2 border-dashed border-border group cursor-pointer"
+          onClick={handleClickContainer}
+        >
+          <img
+            src={preview}
+            alt="Aperçu du filtre"
+            className="w-full h-full object-contain rounded-md p-1"
+          />
+          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-white text-xs font-semibold">Changer</span>
           </div>
           <button
             onClick={handleClear}
@@ -75,10 +81,12 @@ const ImageInput: React.FC<ImageInputProps> = ({ value, onChange, placeholderTex
         <button
           type="button"
           onClick={handleClickContainer}
-          className="w-full h-24 flex flex-col items-center justify-center bg-muted/50 rounded-md border-2 border-dashed border-border hover:border-primary transition-colors"
+          className="w-full h-24 flex flex-col items-center justify-center bg-muted/50 rounded-lg border-2 border-dashed border-border hover:border-primary transition-colors"
         >
           <PlusIcon className="h-6 w-6 text-muted-foreground" />
-          <span className="text-xs text-muted-foreground mt-1">{placeholderText}</span>
+          <span className="text-xs text-muted-foreground mt-1">
+            {placeholderText}
+          </span>
         </button>
       )}
     </div>
