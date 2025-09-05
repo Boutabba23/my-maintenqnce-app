@@ -1,12 +1,9 @@
 -- Migration script to add serial_number and registration_number columns to machines table
 -- Run this in Supabase SQL Editor after the initial setup
 
--- Add serial_number column to machines table
+-- Add serial_number and registration_number columns to machines table
 ALTER TABLE public.machines 
-ADD COLUMN IF NOT EXISTS serial_number TEXT;
-
--- Add registration_number column to machines table
-ALTER TABLE public.machines 
+ADD COLUMN IF NOT EXISTS serial_number TEXT,
 ADD COLUMN IF NOT EXISTS registration_number TEXT;
 
 -- Create index for better performance when searching by serial_number

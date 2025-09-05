@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS public.machines (
     designation TEXT NOT NULL,
     marque TEXT NOT NULL,
     type TEXT NOT NULL,
+    serial_number TEXT,
+    registration_number TEXT,
     service_hours INTEGER NOT NULL DEFAULT 0,
     assigned_filters JSONB NOT NULL DEFAULT '[]'::jsonb,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
@@ -51,6 +53,8 @@ CREATE TABLE IF NOT EXISTS public.maintenance_records (
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_machines_code ON public.machines(code);
 CREATE INDEX IF NOT EXISTS idx_machines_marque ON public.machines(marque);
+CREATE INDEX IF NOT EXISTS idx_machines_serial_number ON public.machines(serial_number);
+CREATE INDEX IF NOT EXISTS idx_machines_registration_number ON public.machines(registration_number);
 CREATE INDEX IF NOT EXISTS idx_maintenance_records_machine_id ON public.maintenance_records(machine_id);
 CREATE INDEX IF NOT EXISTS idx_maintenance_records_date ON public.maintenance_records(date);
 CREATE INDEX IF NOT EXISTS idx_filter_groups_name ON public.filter_groups(name);

@@ -5,23 +5,33 @@ This is the frontend application for GestiFiltres, a filter management system fo
 ## Quick Start
 
 1. **Install dependencies:**
+
    ```bash
    cd frontend
    npm install
    ```
 
 2. **Configure environment variables:**
+
    ```bash
    cp .env.example .env
    # Edit .env file with your actual Supabase credentials
    ```
 
-3. **Start the development server:**
+3. **Apply database migrations:**
+
+   ```bash
+   # Run the migration scripts in your Supabase SQL Editor
+   # See DATABASE_MIGRATION_INSTRUCTIONS.md for detailed instructions
+   ```
+
+4. **Start the development server:**
+
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
+5. **Open your browser:**
    Navigate to `http://localhost:5173`
 
 ## Environment Variables
@@ -36,6 +46,28 @@ This is the frontend application for GestiFiltres, a filter management system fo
 - `npm run build`: Build for production
 - `npm run preview`: Preview production build
 - `npm run lint`: Run ESLint
+
+## Recent Fixes and Improvements
+
+### Database Schema Updates
+
+- Added `serial_number` and `registration_number` columns to machines table
+- Fixed maintenance_range values in maintenance_records table
+- Enabled NULL values for machine_id in maintenance_records for unmatched records
+
+### Import Functionality
+
+- Enhanced validation for machine imports with serial and registration numbers
+- Improved date parsing for maintenance records
+- Better handling of mixed content Excel files
+
+### UI/UX Improvements
+
+- Added warning toast type support
+- Fixed type safety issues
+- Enhanced error handling and user feedback
+
+See [SOLUTION_SUMMARY.md](file:///c:/Users/Mohamed/Desktop/Coding/Maintenance-App-Gemini-Builder/frontend/SOLUTION_SUMMARY.md) for detailed information about all fixes.
 
 ## Project Structure
 
